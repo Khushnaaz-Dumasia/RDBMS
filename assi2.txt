@@ -1,0 +1,253 @@
+Cricket Management System
+
+SEM: 4
+DIV:A
+
+
+TEAM MEMBERS:
+
+
+18 Chauhan krishna
+28 Desai Shivani
+32 Dumasia khushnaaz
+33 Gadhiya Yashvi
+35 Gajera janki
+
+
+Table 1: team
+
+CREATE TABLE TEAM(team_id VARCHAR(30) PRIMARY KEY,
+team_rank NUMERIC(3),
+team_name VARCHAR(20) NOT NULL,
+country_name VARCHAR(20),
+no_of_wins NUMERIC(3),
+no_of_loses NUMERIC(3),
+no_of_draws NUMERIC(3),
+no_of_bowlers NUMERIC(2),
+no_of_batsmans NUMERIC(2));
+
+DATA:
+
+INSERT INTO TEAM VALUES('IND1221', 1, 'MEN IN BLUE','INDIA', 5, 1, 0, 6, 7);
+INSERT INTO TEAM VALUES('AUS2174', 4, 'KANGAROO','AUSTRAILA', 3, 3, 0, 5, 6);
+INSERT INTO TEAM VALUES('SA5412', 3, 'PROTEA','SOUTH AFRICA', 3, 2, 1, 8, 5);
+INSERT INTO TEAM VALUES ('NZ5687', 2, 'BLACK CAPS','NEW ZEALAND', 4, 2, 0, 6,7);
+INSERT INTO TEAM VALUES('BAN9852', 5, 'TIGERS','BANGLADESH', 2, 4 , 0, 7, 7);
+
+------------------------------------------------------------------------------------------------------------
+
+Table 2: wicket_keeper
+
+CREATE TABLE WICKET_KEEPER(
+team_id VARCHAR(30),
+wk_name VARCHAR(30),
+foreign key(team_id) references team(team_id));
+
+DATA:
+
+INSERT INTO WICKET_KEEPER VALUES('IND1221','MS Dhoni');
+INSERT INTO WICKET_KEEPER VALUES('IND1221','Dinesh Kartik');
+INSERT INTO WICKET_KEEPER VALUES('AUS2174','Tim Lee');
+INSERT INTO WICKET_KEEPER VALUES('AUS2174','Peter Hegward');
+INSERT INTO WICKET_KEEPER VALUES('AUS2174','Hefer Kingsly');
+
+------------------------------------------------------------------------------------------------------------
+
+Table 3: umpire
+
+CREATE TABLE UMPIRE(
+umpire_id VARCHAR(30) PRIMARY KEY,
+umpire_name VARCHAR(30),
+no_of_matches NUMERIC(4),
+country VARCHAR(20));
+
+DATA:
+
+INSERT INTO UMPIRE VALUES ('UMP41002', 'Kumar Dharmasena', 103, 'Sri Lanka');
+INSERT INTO UMPIRE VALUES ('UMP74101', 'Aleem Dar', 207, 'Pakistan');
+INSERT INTO UMPIRE VALUES ('Ump52410', 'Anil Chaudhary', 19, 'India');
+INSERT INTO UMPIRE VALUES ('UMP85201', 'Ian Gould', 140, 'England');
+INSERT INTO UMPIRE VALUES ('UMP55200', 'Tony Hill', 96, 'New Zealand');
+
+------------------------------------------------------------------------------------------------------------
+
+Table 4: player
+
+CREATE TABLE PLAYER (
+ player_id VARCHAR(30) PRIMARY KEY,
+team_id VARCHAR(30),
+no_of_matches NUMERIC(3),
+no_of_t20 NUMERIC(3),
+no_of_odi NUMERIC(3),
+no_of_test NUMERIC(3),
+no_of_wickets NUMERIC(2),
+type_of_bowler VARCHAR(30),
+economy NUMERIC(3,2),
+foreign key(team_id) references team(team_id));
+
+DATA:
+
+INSERT INTO PLAYER VALUES ('PLR17410', 'IND1221',13,74,120,20,1,'medium',3.2);
+INSERT INTO PLAYER VALUES ('PLR74203', 'AUS2174',6,41,210,140 ,1,'slow',8.5);
+INSERT INTO PLAYER VALUES ('PLR45987', 'SA5412', 4,24,63,65,1,'mslow',9.2);
+INSERT INTO PLAYER VALUES ('PLR20147', 'NZ5687',12,52 ,10,74,1,'legspin',8.3);
+INSERT INTO PLAYER VALUES ('PLR65200', 'BAN9852',9,77, 30,2,1,'fast',7.3);
+INSERT INTO PLAYER VALUES ('PLR75401', 'IND1221', 11,56, 23,5,7,'fast',5.3);
+
+------------------------------------------------------------------------------------------------------------
+
+Table 5: matches
+
+CREATE TABLE MATCHES(
+match_id VARCHAR(20) PRIMARY KEY,
+match_date DATE,
+team_1_name VARCHAR(30),
+team_2_name VARCHAR(30),
+loser VARCHAR(30),
+winner VARCHAR(30),
+stadium VARCHAR(30),
+umpire_id VARCHAR(30) ,
+foreign key(umpire_id) references umpire(umpire_id));
+
+DATA:
+
+INSERT INTO MATCHES VALUES ('MAT101','12-Mar-2011','India','Bangladesh','Bangladesh','India','Feroz Shah Kotla','UMP55200');
+INSERT INTO MATCHES VALUES ('MAT201','25-Mar-2011','England','Australia','England','Australia','Eden Gardens','UMP41002');
+INSERT INTO MATCHES VALUES ('MAT301','21-Mar-2011','SriLanka','Bangladesh','Bangladesh','Sri Lanka','M.A. Chidambaram','UMP74101');
+INSERT INTO MATCHES VALUES ('MAT401','23-Mar-2011','NewZealand','South Africa','South Africa','New Zealand','Sardar Patel','UMP85201');
+INSERT INTO MATCHES VALUES('MAT501','26-Mar-2011','England','India','England','India','Wankhede','Ump52410');
+
+------------------------------------------------------------------------------------------------------------
+
+Table 6: coach
+
+CREATE TABLE COACH(
+coach_id VARCHAR(30) PRIMARY KEY,
+team_id VARCHAR(30),
+coach_name VARCHAR(30), 
+foreign key(team_id) references team(team_id));
+
+DATA:
+
+INSERT INTO COACH VALUES('CH417', 'IND1221', 'RAVI SHASTRI');
+INSERT INTO COACH VALUES('CH140', 'AUS2174', 'JUSTIN LANGER');
+INSERT INTO COACH VALUES('CH223', 'SA5412', 'OTTIS GIBSON');
+INSERT INTO COACH VALUES('CH398', 'NZ5687', 'GARY STEAD');
+INSERT INTO COACH VALUES('CH748', 'BAN9852', 'RUSSEL DOMINGO');
+INSERT INTO COACH VALUES('CH596', 'IND1221', 'GARY KISTERN');
+
+------------------------------------------------------------------------------------------------------------
+
+Table 7: captain
+
+CREATE TABLE CAPTAIN(
+captain_id VARCHAR(30) PRIMARY KEY,
+captain_name VARCHAR(30),
+team_id VARCHAR(30), 
+player_id VARCHAR(30),
+year_of_captaincy NUMBER(2),
+no_of_wins NUMBER(4) ,
+foreign key(team_id) references team(team_id));
+
+DATA:
+
+INSERT INTO CAPTAIN VALUES('CAP11452', 'MS DHONI', 'IND1221','PLR44567',4,56);
+INSERT INTO CAPTAIN VALUES('CAP21478', 'DALE STEYN', 'SA5412','PLR10235',7,74);
+INSERT INTO CAPTAIN VALUES('CAP30214','MICHEAL CLARKE','AUS2174', 'PLR74138', 9,100);
+INSERT INTO CAPTAIN VALUES('CAP14789','TAMIMIQBAL','BAN9852','PLR89562',2,20);
+INSERT INTO CAPTAIN VALUES('CAP36957', 'ROSS TAYLOR', 'NZ5687','PLR957417',5,85);
+
+------------------------------------------------------------------------------------------------------------
+
+QUERIES:
+
+1. Add column of total matches in the table TEAM. Update the rows using totalmatches= number of WNS+ number of LOSES + number of DRAWS.
+
+Ans: 
+alter table team add total_matches NUMBER;
+update team set total_matches=no_of_draws + no_of_wins + no_of_loses;
+
+2. Display the name of the umpires who have not umpired matches in eden gardens.
+
+Ans: 
+select u.umpire_name,m.stadium
+from umpire u,matches m
+where u.umpire_id=m.umpire_id and u.umpire_name not in(select  u.umpire_name from umpire where m.stadium='Eden Gardens');
+
+3. Display the player_id of players who have same bowling action.
+
+Ans. 
+select player_id from player where type_of_bowler in(select type_of_bowler from player group by type_of_bowler having count(*)>1);
+
+4. Display name of coach who has coached a player with economy less than 5.
+
+Ans: 
+select distinct coach_name from coach where team_id in(select team_id from player where economy<5 );
+
+5. Display the country,team_id whose players have economy less than 5.
+
+Ans. 
+select country_name,team_id from team natural join player where economy<5;
+
+6. Display the name of wicket_keeper who is also a captain of his team.
+
+Ans:
+Select wk_name from wicket_keeper where team_id in( select team_id from captain where captain_name=wk_name);
+
+7. List total wins of each team.
+
+Ans:
+Select count(no_of_wins) From team  Group by(team_id);
+
+8. Display all players of team india.
+
+Ans:
+Select t.team_id,t.team_name,t.country_name,p.player_id
+From team t, player p
+Where t.team_id=p.team_id and t.team_id='IND1221';
+
+9. Display details whose match on 12-Mar-2011.
+
+Ans:
+Select * from matches
+Where match_date=’12-Mar-2011’;
+
+10. Display the coach name who leads team AUSTRAILA.
+
+Ans:
+Select t.team_id,t.team_name,c.coach_id,c.coach_name
+From team t, coach c
+Where t.team_id=c.team_id and t.team_id='AUS2174';
+
+
+11. Display captain of all teams.
+
+Ans: 
+Select t.team_id,t.team_name,c.captain_id,c.captain_name ,c.year_of_captaincy ,c.no_of_wins 
+From team t,captain c
+Where t.team_id=c.team_id ;
+
+
+12. Display wicket keeper name of team AUSTRAILA.
+
+Ans:
+Select  t.team_id,t.team_name,w.wk_name
+From WICKET_KEEPER w,team t
+Where w.team_id=t.team_id and team_name= ‘SOUTH AFRICA’;
+
+13. Display details of player who is fast bowler and captain of the team has won more than 50 matches.
+
+Ans: 
+Select  t.team_id,t.team_name, p.player_id,p.type_of_bowler,c.captain_id,c.no_of_wins
+from team t,player p,captain c
+where t.team_id=p.team_id and t.team_id=c.team_id and p.team_id=c.team_id and p.type_of_bowler='fast' and c.no_of_wins>50;
+
+14. Display wicket keepers from team AUSTRALIA who have team id= AUS2174 and are trained by a captain who has an experience of more than 5 years.
+
+Ans:
+Select w.wk_name as "Wicket Keeper",t.team_id,t.team_name,c.captain_name,c.year_of_captaincy
+from team t,wicket_keeper w,captain c
+where t.team_id=w.team_id and t.team_id=c.team_id and w.team_id=c.team_id and t.team_id='AUS2174' and c.year_of_captaincy>5;
+
+
+

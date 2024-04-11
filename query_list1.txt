@@ -1,0 +1,301 @@
+create table stud_mst(
+roll_no number primary key,
+div varchar(2) not null,
+sem number not null,
+name varchar(15) not null,
+area varchar(10) not null,
+city varchar(10) not null,
+dob date not null,
+bgp varchar(3) not null,
+gender varchar(10) not null);
+
+create table stud_marks(
+roll_no number not null,
+div varchar(2) not null,
+rdbms number not null,
+micro number not null,
+es number not null,
+wd number not null,
+foreign key(roll_no) references stud_mst(roll_no));
+
+create table activity(
+a_id number primary key,
+a_name varchar(15),
+a_date date);
+
+create table participants(
+roll_no number not null,
+div varchar(2) not null,
+a_id number not null,
+perf_grade varchar(3) not null,
+foreign key(roll_no) references stud_mst(roll_no),
+foreign key(a_id) references activity(a_id));
+
+create table fees(
+pay_id number primary key,
+day_of_pay date not null,
+roll_no number not null,
+div varchar(2),
+amt number not null,
+foreign key (roll_no) references stud_mst(roll_no));
+
+create table assignment(
+assi_no number primary key,
+subject varchar(10) not null,
+assi_date date not null,
+faculty varchar(15) not null);
+
+create table assi_sub(
+assi_no number not null,
+roll_no number not null,
+sub_status varchar(15),
+sub_date date,
+grade varchar(2),
+foreign key (assi_no) references assignment(assi_no),
+foreign key(roll_no) references stud_mst(roll_no));
+
+create table book(
+b_id number primary key,
+b_name varchar(15) not null,
+author varchar(15),
+price number not null);
+
+create table book_iss_ret(
+b_id number not null,
+roll_no number not null,
+status varchar(15) not null,
+date_ir date not null,
+foreign key(roll_no) references stud_mst(roll_no),
+foreign key(b_id) references book(b_id));
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN stud_mst:
+
+insert into stud_mst values(1, 'A', 4, 'Priyank Shah', 'citylight', 'surat', '02-feb-2022', 'A+', 'male');
+insert into stud_mst values(2, 'A', 4, 'Priyanka Shah', 'citylight', 'surat', '04-feb-2002', 'A+', 'female');
+insert into stud_mst values(3, 'B', 4, 'Sheena Patel', 'vip road', 'surat', '08-dec-2003', 'A', 'female');
+insert into stud_mst values(4, 'C', 4, 'Parag Desai', 'bhatar', 'mumbai', '19-nov-2014', 'B', 'male');
+insert into stud_mst values(5, 'D', 4, 'Prisha Chauhan', 'adajan', 'kolkata', '12-dec-2000', 'B+', 'female');
+insert into stud_mst values(6, 'B', 4, 'Shweta Singh', 'vip road', 'surat', '08-dec-2003', 'AB', 'female');
+
+select * from stud_mst;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN stud_marks:
+
+alter table stud_marks modify rdbms number check(rdbms>=0 AND rdbms<=100);
+alter table stud_marks modify micro number check(micro>=0 AND micro<=100);
+alter table stud_marks modify es number check(es>=0 AND es<=100);
+alter table stud_marks modify wd number check(wd>=0 AND wd<=100);
+
+insert into stud_marks values(1, 'A', 89, 85, 79, 75);
+insert into stud_marks values(2, 'A', 80, 78, 82, 75);
+insert into stud_marks values(3, 'B', 65, 66, 67, 89);
+insert into stud_marks values(4, 'C', 56, 65, 81, 69);
+insert into stud_marks values(5, 'D', 63, 68, 75, 79);
+insert into stud_marks values(6, 'B', 75, 89, 71, 69);
+
+select * from stud_marks;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN activity:(left to insert)
+
+insert into activity values(01, 'singing', '02-feb-2024');
+insert into activity values(02, 'sports', '02-aug-2024');
+insert into activity values(03, 'dance', '02-feb-2024');
+insert into activity values(04, 'poster comp', '02-jul-2024');
+insert into activity values(05, 'singing', '02-feb-2024);
+insert into activity values(06, 'sports', '02-jan-2024);
+
+select * from activity;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN participants:(left to insert)
+
+insert into participants values(1, 'A', 01, 'A');
+insert into participants values(2, 'A', 02, 'A');
+insert into participants values(3, 'B', 03, 'A');
+insert into participants values(4, 'C', 04, 'B');
+insert into participants values(5, 'D', 05, 'B');
+insert into participants values(6, 'B', 06, 'A');
+
+select * from participants;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN fees:(left to insert)
+
+insert into fees values(010, '01-jan-2024', 1, 'A', 50000);
+insert into fees values(020, '02-jan-2024', 2, 'A', 60000);
+insert into fees values(030, '03-jan-2024', 3, 'B', 70000);
+insert into fees values(040, '04-jan-2024', 4, 'C', 80000);
+insert into fees values(050, '05-jan-2024', 5, 'D', 90000);
+insert into fees values(060, '06-jan-2024', 6, 'B', 40000);
+
+select * from fees;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN assignment:(left to insert)
+
+insert into assignment values(001, 'rdbms', '12-may-2023', 'Maitri Hingu');
+insert into assignment values(002, 'iot', '10-apr-2023', 'Hitesh Lad');
+insert into assignment values(003, 'env', '08-apr-2023', 'Rasna Lunia');
+insert into assignment values(004, 'wd', '10-mar-2023', 'Rupal Panchal');
+insert into assignment values(005, 'rdbms', '12-apr-2023', 'Maitri Hingu');
+insert into assignment values(006, 'iot', '10-may-2023', 'Hitesh Lad');
+
+
+select * from assignment;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN assi_sub:
+
+insert into assi_sub values(001, 1, 'submitted', '15-may-2023', 'A');
+insert into assi_sub values(002, 2, 'submitted', '14-apr-2023', 'A');
+insert into assi_sub (assi_no, roll_no, sub_status) values(003, 3, 'not submitted');
+insert into assi_sub values(004, 4, 'submitted', '20-mar-2023', 'B');
+insert into assi_sub (assi_no, roll_no, sub_status) values(005, 5, 'not submitted');
+insert into assi_sub (assi_no, roll_no, sub_status) values(006, 6, ' not submitted');
+
+select * from assi_sub;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN book:
+
+insert into book values(1, 'ikigai', 'Murakami', 550);
+insert into book values(2, 'DBMS', 'Bayross', 650);
+insert into book values(3, 'Ayala', 'Ravinder', 525);
+insert into book values(4, 'Twilight', 'Raman', 625);
+insert into book values(5, 'Poems', 'Sudha Murthy', 550);
+insert into book values(6, 'Tales of Twin', 'Khushrao', 550);
+
+select * from book;
+
+----------------------------------------------------------------------------------------------------------------
+DATA IN book_iss_ret:
+
+insert into book_iss_ret values(1, 1, 'return', '21-may-2003');
+insert into book_iss_ret values(2, 2, 'issue', '21-may-2003');
+insert into book_iss_ret values(3, 3, 'issue', '15-mar-2003');
+insert into book_iss_ret values(4, 4, 'return', '18-apr-2003');
+insert into book_iss_ret values(5, 5, 'issue', '08-mar-2003');
+insert into book_iss_ret values(6, 6, 'issue', '21-oct-2003');
+
+select * from book_iss_ret;
+
+----------------------------------------------------------------------------------------------------------------
+QUERY LIST:
+
+1.
+alter table stud_mst 
+ADD (age number);
+
+alter table stud_marks 
+ADD (total number);
+
+alter table stud_marks 
+ADD (cgpa number);
+
+2.
+update stud_marks set total=rdbms+micro+es+wd where wd>60;
+
+update stud_marks set cgpa=((total/4)/10) where wd>60;
+
+update stud_mst set age=(sysdate-dob)/365;
+
+3.
+select * from stud_mst where area='citylight' and city='surat';
+
+4.
+select * from stud_mst where gender='female' and name like 'P%';
+
+5. 
+select * from stud_marks where rdbms>70 and micro>70;
+
+6.
+select * from stud_mst where city='surat' or bgp='A+';
+
+7.
+select * from activity a, fees f, participants p where a.a_id=p.a_id and p.roll_no = f.roll_no and 
+day_of_pay>'01-jan-2016' and a.a_name = 'poster comp';
+
+8.
+select * from activity where a_date='01-mar-2016';
+////
+
+9.
+select * from stud_mst order by name asc;
+
+10.
+select * from stud_mst where div='B' and name like 'S%';
+
+11.
+select avg(rdbms) as "Avg of RDBMS", avg(micro) as "Avg of IoT" from stud_marks;
+
+12.
+select s.roll_no, s.div, sm.name, sm.sem, s.rdbms from stud_marks s, stud_mst sm where s.roll_no=sm.roll_no and s.rdbms in 
+(select max(s.rdbms) as "Max of rdbms" from stud_marks s, stud_mst sm where s.roll_no=sm.roll_no);
+
+select s.roll_no, s.div, sm.name, sm.sem, s.rdbms from stud_marks s, stud_mst sm where s.roll_no=sm.roll_no 
+order by s.rdbms desc
+fetch first one rows only;
+
+13.
+select s.roll_no, s.name, s.div, s.sem, a.a_id, a.a_name from stud_mst s, activity a, participants p where
+s.roll_no=p.roll_no  and p.a_id=a.a_id and a_name='dance'; 
+
+
+14.
+select * from stud_mst s, fees f where amount ="";
+select * from stud_mst where roll_no not in (select roll_no from fees);
+///
+
+15.
+alter table stud_mst drop column bgp;
+
+16.
+select s.roll_no, s.name, s.div, s.sem, a.a_id, a.a_name, p.perf_grade from stud_mst s, activity a, participants p
+where s.roll_no=p.roll_no  and p.a_id=a.a_id and p.perf_grade = 'A'; 
+
+17.
+select * from stud_mst s, activity a, participants p
+where s.roll_no=p.roll_no  and p.a_id=a.a_id and s.gender='female' and a.a_name='sports' or a.a_name='dance'; //wrong data coming
+
+18.
+select s.gender, s.roll_no, s.name, s.div, s.sem, a.a_id, a.a_name, p.perf_grade from stud_mst s, activity a, participants p
+where s.roll_no=p.roll_no  and p.a_id=a.a_id and s.gender='male' and a.a_name='sports'; ////////
+
+19.
+select * from stud_mst s, participants p, stud_marks m, activity a 
+where s.roll_no=p.roll_no and p.a_id=a.a_id and m.roll_no=s.roll_no and m.rdbms>70 and p.perf_grade = 'A' and a.a_name='singing'; 
+
+20.
+select * from stud_mst s, participants p, stud_marks m, activity a 
+where s.roll_no=p.roll_no and p.a_id=a.a_id and m.roll_no=s.roll_no and m.es>80 and p.perf_grade = 'B' and a.a_name='singing'; 
+////
+
+21.
+
+22.
+select * from stud_mst s, assignment a, assi_sub asi 
+where s.roll_no=asi.roll_no and a.assi_no=asi.assi_no and a.subject = 'rdbms' and asi.sub_status='submitted';
+
+23.
+select count(assi_no), subject from assignment group by subject;
+
+24.
+select * from assignment a, assi_sub s where a.assi_no=s.assi_no and s.sub_status='not submitted';
+
+25.
+select * from assi_sub asi, activity a, participants p where a.a_id=p.a_id and asi.roll_no=p.roll_no and asi.sub_status='not submitted' and a.a_name='sports';
+////
+
+26.
+select * from stud_marks s, participants p, book_iss_ret b 
+where s.roll_no=p.roll_no and p.roll_no=b.roll_no and b.status='issue' and b.b_id=2 and s.rdbms>80 and p.a_id in (select a_id from activity where a_name='dance');
+////
+
+27. 
+select count(b_id) as "Total Books Issued" from book_iss_ret where status='issue';
+
+28.
+select * from assignment a, assi_sub s ,book b , book_iss_ret i where a.assi_no=s.assi_no and b.b_id=i.b_id and s.roll_no=i.roll_no and i.status='issue' and b.price>500 and a.subject='rdbms' and s.sub_status='not submitted';
